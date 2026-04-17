@@ -37,15 +37,15 @@ const ARView = () => {
     let animatedModel;
     let revealProgress = 0;
     let targetVisible = false;
-    const finalScale = 2.35;
+    const finalScale = 1.45;
     const hiddenScale = 0.001;
-    const revealHeight = 0.22;
-    const revealSpeed = 1.2;
-    const tiltStart = -0.25;
-    const finalTilt = -0.78;
-    const animationTimeScale = 0.45;
+    const revealHeight = 0.08;
+    const revealSpeed = 1.4;
+    const tiltStart = -0.04;
+    const finalTilt = -0.18;
+    const animationTimeScale = 0.25;
     const xOffset = 0;
-    const yOffset = 0.14;
+    const yOffset = -0.01;
     let cancelled = false;
 
     const startAR = async () => {
@@ -170,7 +170,7 @@ const ARView = () => {
               finalTilt,
               easedReveal,
             );
-            animatedModel.rotation.y = 0.12;
+            animatedModel.rotation.y = 0;
             animatedModel.rotation.z = 0;
           }
 
