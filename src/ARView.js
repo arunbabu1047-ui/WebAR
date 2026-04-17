@@ -37,9 +37,15 @@ const ARView = () => {
     let animatedModel;
     let revealProgress = 0;
     let targetVisible = false;
-    const finalScale = 1.5;
+    const finalScale = 2.2;
     const hiddenScale = 0.001;
-    const revealHeight = 0.35;
+    const revealHeight = 0.2;
+    const revealSpeed = 1.2;
+    const tiltStart = -0.2;
+    const finalTilt = -0.45;
+    const animationTimeScale = 0.45;
+    const xOffset = 0;
+    const yOffset = 0.12;
     let cancelled = false;
 
     const startAR = async () => {
@@ -94,13 +100,15 @@ const ARView = () => {
 
             const model = gltf.scene;
             model.scale.set(hiddenScale, hiddenScale, hiddenScale);
-            model.position.set(0, 0, 0);
+            model.position.set(xOffset, yOffset, 0);
             animatedModel = model;
 
             if (gltf.animations?.length) {
               animationMixer = new THREE.AnimationMixer(model);
               gltf.animations.forEach((clip) => {
-                animationMixer.clipAction(clip).play();
+                const action = animationMixer.clipAction(clip);
+                action.timeScale = animationTimeScale;
+                action.play();
               });
             }
 
@@ -133,7 +141,7 @@ const ARView = () => {
           if (animatedModel) {
             const direction = targetVisible ? 1 : -1;
             revealProgress = THREE.MathUtils.clamp(
-              revealProgress + direction * delta * 1.8,
+              revealProgress + direction * delta * revealSpeed,
               0,
               1,
             );
@@ -150,14 +158,16 @@ const ARView = () => {
             );
 
             animatedModel.scale.set(currentScale, currentScale, currentScale);
+            animatedModel.position.x = xOffset;
+            animatedModel.position.y = yOffset;
             animatedModel.position.z = THREE.MathUtils.lerp(
               0,
               revealHeight,
               easedReveal,
             );
             animatedModel.rotation.x = THREE.MathUtils.lerp(
-              -0.35,
-              0,
+              tiltStart,
+              finalTilt,
               easedReveal,
             );
           }
