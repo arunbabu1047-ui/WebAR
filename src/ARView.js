@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 const imageTargetSrc = process.env.PUBLIC_URL
-  ? `${process.env.PUBLIC_URL}/targets.mind`
-  : "/targets.mind";
+  ? `${process.env.PUBLIC_URL}/targets1.mind`
+  : "/targets1.mind";
 const modelSrc = process.env.PUBLIC_URL
   ? `${process.env.PUBLIC_URL}/model.glb`
   : "/model.glb";
@@ -111,10 +111,10 @@ const ARView = () => {
           () => {
             if (!cancelled) {
               setStatus(
-                "The 3D model could not be loaded. Check public/model.glb and try again."
+                "The 3D model could not be loaded. Check public/model.glb and try again.",
               );
             }
-          }
+          },
         );
 
         await mindarThree.start();
@@ -135,26 +135,30 @@ const ARView = () => {
             revealProgress = THREE.MathUtils.clamp(
               revealProgress + direction * delta * 1.8,
               0,
-              1
+              1,
             );
 
-            const easedReveal = THREE.MathUtils.smoothstep(revealProgress, 0, 1);
+            const easedReveal = THREE.MathUtils.smoothstep(
+              revealProgress,
+              0,
+              1,
+            );
             const currentScale = THREE.MathUtils.lerp(
               hiddenScale,
               finalScale,
-              easedReveal
+              easedReveal,
             );
 
             animatedModel.scale.set(currentScale, currentScale, currentScale);
             animatedModel.position.z = THREE.MathUtils.lerp(
               0,
               revealHeight,
-              easedReveal
+              easedReveal,
             );
             animatedModel.rotation.x = THREE.MathUtils.lerp(
               -0.35,
               0,
-              easedReveal
+              easedReveal,
             );
           }
 
@@ -163,7 +167,7 @@ const ARView = () => {
       } catch (error) {
         if (!cancelled) {
           setStatus(
-            "AR could not start. Verify camera permission and the target file in public/targets.mind."
+            "AR could not start. Verify camera permission and the target file in public/targets1.mind.",
           );
         }
       }
